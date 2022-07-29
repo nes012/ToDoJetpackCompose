@@ -1,5 +1,9 @@
 package anzhy.dizi.todojetpackcompose.data.models
 
+import androidx.room.Entity
+import anzhy.dizi.todojetpackcompose.utils.Constants.DATABASE_TABLE
+
+@Entity(tableName = DATABASE_TABLE)
 data class ToDoTask(
     val id: Int = 0,
     val title: String,
