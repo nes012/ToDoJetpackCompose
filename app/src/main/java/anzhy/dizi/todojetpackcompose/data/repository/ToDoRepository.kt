@@ -2,9 +2,12 @@ package anzhy.dizi.todojetpackcompose.data.repository
 
 import anzhy.dizi.todojetpackcompose.data.ToDoDao
 import anzhy.dizi.todojetpackcompose.data.models.ToDoTask
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+//this annotation tells that instance of our repository will be alive as long as shared vm
+@ViewModelScoped
 class ToDoRepository @Inject constructor(
     private val toDoDao: ToDoDao
 ) {
