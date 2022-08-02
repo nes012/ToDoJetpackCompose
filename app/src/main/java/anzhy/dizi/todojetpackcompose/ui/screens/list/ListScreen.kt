@@ -1,12 +1,11 @@
 package anzhy.dizi.todojetpackcompose.ui.screens.list
 
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -15,18 +14,33 @@ import anzhy.dizi.todojetpackcompose.ui.theme.fabBackgroundColor
 import anzhy.dizi.todojetpackcompose.ui.viewmodels.SharedViewModel
 import anzhy.dizi.todojetpackcompose.utils.SearchAppBarState
 
+@ExperimentalMaterialApi
 @Composable
 fun ListScreen(
     navigateToTaskScreen: (taskId: Int) -> Unit,
     sharedViewModel: SharedViewModel
 ) {
+    //it will launch block into composition coroutineContext
+    LaunchedEffect(key1 = true) {
+        //this will trigger our repository
+        sharedViewModel.getAllTasks()
+    }
+
+    //collectAsState - collect values from state flow. It will update allTasks whenever there is changes in DB.
+    //here we are basically observe our DB
+    // use by instead = . This will immediately transfer state in simple list to do task
+    val allTasks by sharedViewModel.allTasks.collectAsState()
+
     //this way we will observe state from VM
     val searchAppBarState: SearchAppBarState
             by sharedViewModel.searchAppBarState
     val searchTextState: String
             by sharedViewModel.searchTextState
 
+    val scaffoldState = rememberScaffoldState()
+
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             ListAppBar(
                 sharedViewModel = sharedViewModel,
@@ -35,8 +49,12 @@ fun ListScreen(
             )
         },
         content = {
-                  //list content file
-                  //1. we need to create 1 row composable
+            //list content file
+            //1. we need to create 1 row composable
+            ListContent(
+                tasks = allTasks,
+                navigateToTaskScreen = navigateToTaskScreen
+            )
         },
         floatingActionButton = {
             ListFab(onFabClicked = navigateToTaskScreen)

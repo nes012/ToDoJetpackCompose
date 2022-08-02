@@ -1,5 +1,6 @@
 package anzhy.dizi.todojetpackcompose.navigation
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
@@ -9,6 +10,7 @@ import anzhy.dizi.todojetpackcompose.navigation.destinations.taskComposable
 import anzhy.dizi.todojetpackcompose.ui.viewmodels.SharedViewModel
 import anzhy.dizi.todojetpackcompose.utils.Constants.LIST_SCREEN
 
+@ExperimentalMaterialApi
 @Composable
 fun SetupNavigation(
     navController: NavHostController,
