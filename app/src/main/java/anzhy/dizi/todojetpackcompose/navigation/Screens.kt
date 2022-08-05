@@ -4,6 +4,7 @@ import androidx.navigation.NavHostController
 import anzhy.dizi.todojetpackcompose.utils.Action
 import anzhy.dizi.todojetpackcompose.utils.Constants.LIST_SCREEN
 
+// this class handling navigation of app
 class Screens(navController: NavHostController) {
     val list: (Int) -> Unit = { taskId ->
         navController.navigate("task/$taskId") {
