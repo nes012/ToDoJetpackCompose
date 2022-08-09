@@ -2,6 +2,7 @@ package anzhy.dizi.todojetpackcompose.ui.screens.task
 
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import anzhy.dizi.todojetpackcompose.data.models.Priority
 import anzhy.dizi.todojetpackcompose.data.models.ToDoTask
 import anzhy.dizi.todojetpackcompose.utils.Action
 
@@ -16,10 +17,16 @@ fun TaskScreen(
                 selectedTask = selectedTask,
                 navigateToListScreen = navigateToListScreen
             )
-
         },
         content = {
-
+            TaskContent(
+                title = "",
+                onTitleChange = {},
+                description = "",
+                onDescriptionChange = {},
+                priority = Priority.LOW,
+                onPrioritySelected = {}
+            )
         }
     )
 }
