@@ -106,7 +106,6 @@ fun ExistingTaskAppBar(
         actions = {
             DeleteAction(onDeleteClicked = navigateToListScreen)
             UpdateAction(onDeleteClicked = navigateToListScreen)
-
         }
     )
 }

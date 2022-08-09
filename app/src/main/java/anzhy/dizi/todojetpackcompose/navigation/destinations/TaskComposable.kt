@@ -27,7 +27,10 @@ fun NavGraphBuilder.taskComposable(
         sharedViewModel.getSelectedTask(taskId = taskId)
         val selectedTask by sharedViewModel.selectedTask.collectAsState()
 
-        LaunchedEffect(key1 = taskId){
+        //only when selected task changed we will execute this fun
+        //update task depend on selected task and not on taskId
+        LaunchedEffect(key1 = selectedTask){
+            //this bloack of code will be executed when data is collected (selectedTask)
             sharedViewModel.updateTaskFields(selectedTask = selectedTask)
         }
         

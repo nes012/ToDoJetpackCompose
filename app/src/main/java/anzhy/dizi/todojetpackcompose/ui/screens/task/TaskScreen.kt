@@ -1,8 +1,10 @@
 package anzhy.dizi.todojetpackcompose.ui.screens.task
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import anzhy.dizi.todojetpackcompose.data.models.Priority
 import anzhy.dizi.todojetpackcompose.data.models.ToDoTask
 import anzhy.dizi.todojetpackcompose.ui.viewmodels.SharedViewModel
@@ -15,32 +17,55 @@ fun TaskScreen(
     navigateToListScreen: (Action) -> Unit
 ) {
 
-    val title: String by sharedViewModel.title
-    val description: String by sharedViewModel.description
-    val priority: Priority by sharedViewModel.priority
+    val title: String = sharedViewModel.title
+    val description: String = sharedViewModel.description
+    val priority: Priority = sharedViewModel.priority
+
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
             TaskAppBar(
                 selectedTask = selectedTask,
-                navigateToListScreen = navigateToListScreen
+                navigateToListScreen = { action ->
+                    if (action == Action.NO_ACTION) {
+                        //navigate back
+                        navigateToListScreen(action)
+                    } else {
+                        //validate title and description. if not empty
+                        if (sharedViewModel.validateFields()) {
+                            //if not empty navigate to screen
+                            navigateToListScreen(action)
+                        } else {
+                            displayToast(context = context)
+                        }
+                    }
+                }
             )
         },
         content = {
             TaskContent(
                 title = title,
                 onTitleChange = {
-                    sharedViewModel.title.value = it
+                    sharedViewModel.updateTitle(it)
                 },
                 description = description,
                 onDescriptionChange = {
-                    sharedViewModel.description.value = it
+                    sharedViewModel.updateDescription(newDescription = it)
                 },
                 priority = priority,
                 onPrioritySelected = {
-                    sharedViewModel.priority.value = it
+                    sharedViewModel.updatePriority(newPriority = it)
                 }
             )
         }
     )
+}
+
+fun displayToast(context: Context) {
+    Toast.makeText(
+        context,
+        "Fields Empty",
+        Toast.LENGTH_SHORT
+    ).show()
 }
