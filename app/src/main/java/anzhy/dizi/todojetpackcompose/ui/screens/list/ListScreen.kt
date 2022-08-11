@@ -26,6 +26,9 @@ fun ListScreen(
         sharedViewModel.getAllTasks()
     }
 
+    //observing an action
+    val action by sharedViewModel.action
+
     //collectAsState - collect values from state flow. It will update allTasks whenever there is changes in DB.
     //here we are basically observe our DB
     // use by instead = . This will immediately transfer state in simple list to do task
@@ -38,6 +41,9 @@ fun ListScreen(
             by sharedViewModel.searchTextState
 
     val scaffoldState = rememberScaffoldState()
+
+    //inside handleDatabaseAction we perform specific fun depending on Action
+    sharedViewModel.handleDatabaseAction(action = action)
 
     Scaffold(
         scaffoldState = scaffoldState,

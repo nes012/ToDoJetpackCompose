@@ -9,3 +9,27 @@ enum class Action {
     UNDO,
     NO_ACTION
 }
+
+//convert string to action
+fun String?.toAction(): Action {
+    return when {
+        this == "ADD" -> {
+            Action.ADD
+        }
+        this == "DELETE" -> {
+            Action.DELETE
+        }
+        this == "DELETE_ALL" -> {
+            Action.DELETE_ALL
+        }
+        this == "UPDATE" -> {
+            Action.UPDATE
+        }
+        this == "UNDO" -> {
+            Action.UNDO
+        }
+        else -> {
+            Action.NO_ACTION
+        }
+    }
+}

@@ -14,6 +14,7 @@ import anzhy.dizi.todojetpackcompose.utils.Constants.MAX_TITLE_LENGTH
 import anzhy.dizi.todojetpackcompose.utils.RequestState
 import anzhy.dizi.todojetpackcompose.utils.SearchAppBarState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -23,6 +24,8 @@ import javax.inject.Inject
 class SharedViewModel @Inject constructor(
     private val repository: ToDoRepository
 ) : ViewModel() {
+
+    val action: MutableState<Action> = mutableStateOf(Action.NO_ACTION)
 
     /*
     val id: MutableState<Int> = mutableStateOf(0)
@@ -40,9 +43,6 @@ class SharedViewModel @Inject constructor(
 
     /*private val _allTasks =
         MutableStateFlow<List<ToDoTask>>(emptyList())*/
-
-    var action by mutableStateOf(Action.NO_ACTION)
-        private set
 
     var id by mutableStateOf(0)
         private set
@@ -125,9 +125,45 @@ class SharedViewModel @Inject constructor(
         priority = newPriority
     }
 
+    private fun addTask() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val toDoTask = ToDoTask(
+                title = title,
+                description = description,
+                priority = priority
+            )
+            repository.addTask(toDoTask = toDoTask)
+        }
+    }
+
+    fun handleDatabaseAction(action: Action) {
+        when (action) {
+            Action.ADD -> {
+                addTask()
+            }
+            Action.UPDATE -> {
+
+            }
+            Action.DELETE -> {
+
+            }
+            Action.DELETE_ALL -> {
+
+            }
+            Action.UNDO -> {
+
+            }
+            else -> {
+
+            }
+        }
+        this.action.value = Action.NO_ACTION
+    }
+    /*
     fun updateAction(newAction: Action) {
         action = newAction
     }
+     */
 
     fun validateFields(): Boolean {
         return title.isNotEmpty() && description.isNotEmpty()
