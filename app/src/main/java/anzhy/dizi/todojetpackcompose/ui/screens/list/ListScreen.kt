@@ -32,6 +32,7 @@ fun ListScreen(
     //here we are basically observe our DB
     // use by instead = . This will immediately transfer state in simple list to do task
     val allTasks by sharedViewModel.allTasks.collectAsState()
+    val searchedTasks by sharedViewModel.searchedTasks.collectAsState()
 
     //this way we will observe state from VM
     val searchAppBarState: SearchAppBarState
@@ -65,7 +66,9 @@ fun ListScreen(
             //list content file
             //1. we need to create 1 row composable
             ListContent(
-                tasks = allTasks,
+                allTasks = allTasks,
+                searchedTasks = searchedTasks,
+                searchAppBarState = searchAppBarState,
                 navigateToTaskScreen = navigateToTaskScreen
             )
         },

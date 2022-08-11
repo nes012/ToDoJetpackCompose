@@ -50,7 +50,9 @@ fun ListAppBar(
                 onTextChange = { newText ->
                     sharedViewModel.searchTextState.value = newText
                 },
-                onSearchClicked = {},
+                onSearchClicked = {
+                    sharedViewModel.searchDatabase(searchQuery = it)
+                },
                 onCloseClicked = {
                     sharedViewModel.searchAppBarState.value =
                         SearchAppBarState.CLOSED
@@ -246,10 +248,9 @@ fun SearchAppBar(
                                 trailingIconState = TrailingIconState.READY_TO_CLOSE
                             }
                             TrailingIconState.READY_TO_CLOSE -> {
-                                if(text.isNotEmpty()){
-                                   onTextChange("")
-                                }
-                                else {
+                                if (text.isNotEmpty()) {
+                                    onTextChange("")
+                                } else {
                                     onCloseClicked()
                                     trailingIconState = TrailingIconState.READY_TO_DELETE
                                 }
