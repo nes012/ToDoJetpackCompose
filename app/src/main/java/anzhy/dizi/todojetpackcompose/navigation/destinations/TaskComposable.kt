@@ -29,11 +29,14 @@ fun NavGraphBuilder.taskComposable(
 
         //only when selected task changed we will execute this fun
         //update task depend on selected task and not on taskId
-        LaunchedEffect(key1 = selectedTask){
-            //this bloack of code will be executed when data is collected (selectedTask)
-            sharedViewModel.updateTaskFields(selectedTask = selectedTask)
+        LaunchedEffect(key1 = selectedTask) {
+           // need to be checked for using undo fun
+            if (selectedTask != null || taskId == -1) {
+                //this block of code will be executed when data is collected (selectedTask)
+                sharedViewModel.updateTaskFields(selectedTask = selectedTask)
+            }
         }
-        
+
         TaskScreen(
             sharedViewModel = sharedViewModel,
             selectedTask = selectedTask,
