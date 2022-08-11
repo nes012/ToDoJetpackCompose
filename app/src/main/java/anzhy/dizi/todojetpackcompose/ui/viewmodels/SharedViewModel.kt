@@ -62,7 +62,7 @@ class SharedViewModel @Inject constructor(
     val allTasks: StateFlow<RequestState<List<ToDoTask>>> = _allTasks
 
     fun searchDatabase(searchQuery: String) {
-        _searchedTasks.value =  RequestState.Loading
+        _searchedTasks.value = RequestState.Loading
         try {
             viewModelScope.launch {
                 //we need to pass query inside %% otherwise it will not work
@@ -167,6 +167,7 @@ class SharedViewModel @Inject constructor(
             )
             repository.addTask(toDoTask = toDoTask)
         }
+        searchAppBarState.value = SearchAppBarState.CLOSED
     }
 
     private fun deleteTask() {
@@ -178,6 +179,12 @@ class SharedViewModel @Inject constructor(
                 priority = priority
             )
             repository.deleteTask(toDoTask = toDoTask)
+        }
+    }
+
+    private fun deleteAllTasks() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteAllTask()
         }
     }
 
@@ -193,7 +200,7 @@ class SharedViewModel @Inject constructor(
                 deleteTask()
             }
             Action.DELETE_ALL -> {
-
+                deleteAllTasks()
             }
             Action.UNDO -> {
                 addTask()
