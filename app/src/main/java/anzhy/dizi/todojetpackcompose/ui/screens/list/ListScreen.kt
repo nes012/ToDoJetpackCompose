@@ -23,12 +23,12 @@ fun ListScreen(
     navigateToTaskScreen: (taskId: Int) -> Unit,
     sharedViewModel: SharedViewModel
 ) {
-    //it will launch block into composition coroutineContext
+/*    //it will launch block into composition coroutineContext
     LaunchedEffect(key1 = true) {
         //this will trigger our repository
         sharedViewModel.getAllTasks()
         sharedViewModel.readSortState()
-    }
+    }*/
 
     LaunchedEffect(key1 = action){
         sharedViewModel.handleDatabaseAction(action = action)
