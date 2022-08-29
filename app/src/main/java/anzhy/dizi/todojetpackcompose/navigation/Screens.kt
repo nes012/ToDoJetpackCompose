@@ -11,7 +11,7 @@ class Screens(navController: NavHostController) {
         }
     }
 
-    //whenever we navigate we don't want to pass whole task object instead we will pass id of that selected task. Then we will request this task object from db by id.
+    //whenever we navigate we don't need to pass whole task object instead we will pass id of that selected task. Then we will request this task object from db by id.
     val task: (Action) -> Unit = { action ->
         navController.navigate(route = "list/${action}") {
             popUpTo(LIST_SCREEN) { inclusive = true }
