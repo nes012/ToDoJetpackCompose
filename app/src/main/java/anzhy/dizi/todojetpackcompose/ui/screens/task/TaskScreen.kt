@@ -5,6 +5,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
@@ -28,7 +29,13 @@ fun TaskScreen(
 
     val context = LocalContext.current
 
-    BackHandler(onBackPressed = { navigateToListScreen(Action.NO_ACTION) })
+    //BackHandler(onBackPressed = { navigateToListScreen(Action.NO_ACTION) })
+
+    //this method will handle on back pressed
+    BackHandler {
+        navigateToListScreen(Action.NO_ACTION)
+    }
+
 
     Scaffold(
         topBar = {
@@ -69,6 +76,7 @@ fun TaskScreen(
     )
 }
 
+/*
 @Composable
 fun BackHandler(
     backDispatcher: OnBackPressedDispatcher? =
@@ -94,6 +102,7 @@ fun BackHandler(
         }
     }
 }
+*/
 
 
 fun displayToast(context: Context) {
