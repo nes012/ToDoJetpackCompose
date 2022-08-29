@@ -1,7 +1,6 @@
 package anzhy.dizi.todojetpackcompose.ui.screens.list
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -20,6 +19,7 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterialApi
 @Composable
 fun ListScreen(
+    action: Action,
     navigateToTaskScreen: (taskId: Int) -> Unit,
     sharedViewModel: SharedViewModel
 ) {
@@ -30,8 +30,9 @@ fun ListScreen(
         sharedViewModel.readSortState()
     }
 
-    //observing an action
-    val action by sharedViewModel.action
+    LaunchedEffect(key1 = action){
+        sharedViewModel.handleDatabaseAction(action = action)
+    }
 
     //collectAsState - collect values from state flow. It will update allTasks whenever there is changes in DB.
     //here we are basically observe our DB
@@ -57,7 +58,8 @@ fun ListScreen(
         onUndoClicked = {
             sharedViewModel.action.value = it
         },
-        handleDatabaseAction = { sharedViewModel.handleDatabaseAction(action = action) },
+        //handleDatabaseAction = { sharedViewModel.handleDatabaseAction(action = action) },
+        onComplete = { sharedViewModel.action.value = it },
         taskTitle = sharedViewModel.title,
         action = action
     )
@@ -123,12 +125,13 @@ fun ListFab(
 @Composable
 fun DisplaySnackBar(
     scaffoldState: ScaffoldState,
-    handleDatabaseAction: () -> Unit,
+    onComplete: (Action) -> Unit,
+    //handleDatabaseAction: () -> Unit,
     onUndoClicked: (Action) -> Unit,
     taskTitle: String,
     action: Action
 ) {
-    handleDatabaseAction()
+    //handleDatabaseAction()
 
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = action) {
@@ -148,6 +151,7 @@ fun DisplaySnackBar(
                     onUndoClicked = onUndoClicked
                 )
             }
+            onComplete(Action.NO_ACTION)
         }
     }
 }

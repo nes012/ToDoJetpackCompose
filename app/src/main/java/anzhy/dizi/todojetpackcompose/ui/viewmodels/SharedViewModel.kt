@@ -227,7 +227,7 @@ class SharedViewModel @Inject constructor(
 
             }
         }
-        this.action.value = Action.NO_ACTION
+        //this.action.value = Action.NO_ACTION
     }
     /*
     fun updateAction(newAction: Action) {
