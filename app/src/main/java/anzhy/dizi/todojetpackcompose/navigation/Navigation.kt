@@ -1,15 +1,17 @@
 package anzhy.dizi.todojetpackcompose.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import anzhy.dizi.todojetpackcompose.navigation.destinations.listComposable
 import anzhy.dizi.todojetpackcompose.navigation.destinations.taskComposable
 import anzhy.dizi.todojetpackcompose.ui.viewmodels.SharedViewModel
 import anzhy.dizi.todojetpackcompose.utils.Constants.LIST_SCREEN
+import com.google.accompanist.navigation.animation.AnimatedNavHost
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @Composable
 fun SetupNavigation(
@@ -22,7 +24,8 @@ fun SetupNavigation(
         Screens(navController = navController)
     }
 
-    NavHost(
+    //NavHost for animation transaction
+    AnimatedNavHost(
         navController = navController,
         startDestination = LIST_SCREEN
     ) {
