@@ -23,6 +23,7 @@ fun ListScreen(
     LaunchedEffect(key1 = true) {
         //this will trigger our repository
         sharedViewModel.getAllTasks()
+        sharedViewModel.readSortState()
     }
 
     //observing an action
@@ -41,6 +42,11 @@ fun ListScreen(
             by sharedViewModel.searchTextState
 
     val scaffoldState = rememberScaffoldState()
+
+    val sortState by sharedViewModel.sortState.collectAsState()
+    val lowPriorityTasks by sharedViewModel.lowPriorityTasks.collectAsState()
+    val highPriorityTasks by sharedViewModel.highPriorityTasks.collectAsState()
+
 
     DisplaySnackBar(
         scaffoldState = scaffoldState,
@@ -68,6 +74,9 @@ fun ListScreen(
             ListContent(
                 allTasks = allTasks,
                 searchedTasks = searchedTasks,
+                lowPriorityTasks = lowPriorityTasks,
+                highPriorityTasks = highPriorityTasks,
+                sortState = sortState,
                 searchAppBarState = searchAppBarState,
                 navigateToTaskScreen = navigateToTaskScreen
             )
