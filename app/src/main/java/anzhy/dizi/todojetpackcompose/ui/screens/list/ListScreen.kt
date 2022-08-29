@@ -1,9 +1,13 @@
 package anzhy.dizi.todojetpackcompose.ui.screens.list
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import anzhy.dizi.todojetpackcompose.R
@@ -68,7 +72,11 @@ fun ListScreen(
                 searchTextState = searchTextState
             )
         },
-        content = {
+        content = { padding ->
+            Box(
+                modifier = Modifier
+                    .padding(padding)
+            )
             //list content file
             //1. we need to create 1 row composable
             ListContent(
@@ -78,6 +86,10 @@ fun ListScreen(
                 highPriorityTasks = highPriorityTasks,
                 sortState = sortState,
                 searchAppBarState = searchAppBarState,
+                onSwipeToDelete = { action, task ->
+                    sharedViewModel.action.value = action
+                    sharedViewModel.updateTaskFields(selectedTask = task)
+                },
                 navigateToTaskScreen = navigateToTaskScreen
             )
         },
